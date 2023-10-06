@@ -114,12 +114,18 @@ jobs:
         uses: thedoctor0/zip-release@master
         with:
           type: 'zip'
-          directory: "${{ env.libraryName }}/cmake-build/${{ env.cmakeInstallationPath }}"
+          path: |
+            libdarknet.a
+            libdarknet.so
+            include
+            data
+            cfg
+          directory: "${{ env.libraryName }}"
           filename: "${{ env.libraryName }}-${{ github.ref_name }}-${{ matrix.compiler.name }}.zip"
         
       - name: Release prebuilt
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "${{ env.libraryName }}/cmake-build/${{ env.cmakeInstallationPath }}/${{ env.libraryName }}-${{ github.ref_name }}-${{ matrix.compiler.name }}.zip"
+          artifacts: "${{ env.libraryName }}/${{ env.libraryName }}-${{ github.ref_name }}-${{ matrix.compiler.name }}.zip"
           allowUpdates: true
           token: ${{ secrets.GITHUB_TOKEN }}
