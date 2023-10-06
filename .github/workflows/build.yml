@@ -103,9 +103,13 @@ jobs:
             export PATH="$workspace/mingw64:$workspace/mingw64/bin:$workspace/cmake-3.24.0-windows-x86_64/bin:$workspace/PortableGit-2.38.1-64-bit/bin:$workspace/msys64/usr/bin:/usr/bin" &&
             cd "${{ env.libraryName }}" && \
             g++ --version && \
-            mingw32-make obj backup libdarknet.a libdarknet.so &&^
-            dir /s
+            mingw32-make obj backup libdarknet.a libdarknet.so
             
+      - shell: cmd
+        run: |
+          cd "${{ env.libraryName }}" &&^
+          dir /s
+          
       - name: Archive Release
         uses: thedoctor0/zip-release@master
         with:
