@@ -86,7 +86,8 @@ jobs:
           cd "${{ env.libraryName }}" &&^
           cd include &&^
           dir &&^
-          "${{ github.workspace }}\PortableGit-2.38.1-64-bit\usr\bin\sed.exe" -i "s/#include\s\+<pthread.h>/#include <time.h>\n#include <pthread.h>/g" .\darknet.h &&^
+          "${{ github.workspace }}\PortableGit-2.38.1-64-bit\usr\bin\sed.exe" --version &&^
+          "${{ github.workspace }}\PortableGit-2.38.1-64-bit\usr\bin\sed.exe" -i "s/#include\s\+<pthread.h>/#include <time.h>\n#include <pthread.h>/g" darknet.h &&^
           type .\darknet.h
           
       - name: set PATH, check mingw version, cmake generate, build and install
