@@ -110,22 +110,31 @@ jobs:
           cd "${{ env.libraryName }}" &&^
           dir /s
           
+      - shell: cmd
+        run: |
+          cd "${{ env.libraryName }}" &&^
+          mkdir "export\lib" &&^
+          xcopy /H /Y /C "libdarknet.a" "export\lib" &&^
+          xcopy /H /Y /C "libdarknet.so" "export\lib" &&^
+          mkdir "export\include" &&^
+          xcopy /E /H /Y /C "include\*" "export\include" &&^
+          mkdir "export\cfg" &&^
+          xcopy /E /H /Y /C "cfg\*" "export\cfg" &&^
+          mkdir "export\data" &&^
+          xcopy /E /H /Y /C "data\*" "export\data" &&^
+          cd export &&^
+          dir /s
+          
       - name: Archive Release
         uses: thedoctor0/zip-release@master
         with:
           type: 'zip'
-          path: |
-            libdarknet.a
-            libdarknet.so
-            include
-            data
-            cfg
-          directory: "${{ env.libraryName }}"
+          directory: "${{ env.libraryName }}/export"
           filename: "${{ env.libraryName }}-${{ github.ref_name }}-${{ matrix.compiler.name }}.zip"
         
       - name: Release prebuilt
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "${{ env.libraryName }}/${{ env.libraryName }}-${{ github.ref_name }}-${{ matrix.compiler.name }}.zip"
+          artifacts: "${{ env.libraryName }}/export/${{ env.libraryName }}-${{ github.ref_name }}-${{ matrix.compiler.name }}.zip"
           allowUpdates: true
           token: ${{ secrets.GITHUB_TOKEN }}
